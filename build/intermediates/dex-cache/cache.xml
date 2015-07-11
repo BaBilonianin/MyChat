@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="C:\Users\Vic\AndroidStudioProjects\ChatProject\app\libs\autobahn-0.5.0.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="5f62bc6117f905fd37955f6e2ebd3aad68701b60">
+        <dex dex="C:\Users\Vic\AndroidStudioProjects\ChatProject\app\build\intermediates\pre-dexed\debug\autobahn-0.5.0-24f8707030a4038df5931e1553cf8c2475b6bede.jar" />
+    </item>
+    <item
+        jar="C:\Users\Vic\AndroidStudioProjects\ChatProject\app\libs\jackson-mapper-asl-1.9.7.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="1117c1d187c9a6fac02fabd4eccc0fc464e82a6c">
+        <dex dex="C:\Users\Vic\AndroidStudioProjects\ChatProject\app\build\intermediates\pre-dexed\debug\jackson-mapper-asl-1.9.7-16d8ee7e80beb1853f088183fae7355a98cd3796.jar" />
+    </item>
+    <item
+        jar="C:\Users\Vic\Documents\GitHub\MyChat\app\build\intermediates\exploded-aar\com.android.support\support-v4\22.1.1\jars\classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="c95ba8152923e4872e86a82cfcba9a51c0214328">
+        <dex dex="C:\Users\Vic\Documents\GitHub\MyChat\app\build\intermediates\pre-dexed\debug\classes-9ca569356e1aaaf5c53257b82c2341744e86fed1.jar" />
+    </item>
+    <item
+        jar="C:\Users\Vic\Documents\GitHub\MyChat\app\libs\jackson-mapper-asl-1.9.7.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="1117c1d187c9a6fac02fabd4eccc0fc464e82a6c">
+        <dex dex="C:\Users\Vic\Documents\GitHub\MyChat\app\build\intermediates\pre-dexed\debug\jackson-mapper-asl-1.9.7-6dea4b336a29444116688fcc2a98f28750d02291.jar" />
+    </item>
+    <item
+        jar="C:\Users\Vic\AndroidStudioProjects\ChatProject\app\build\intermediates\exploded-aar\com.android.support\support-v4\22.1.1\jars\classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="c95ba8152923e4872e86a82cfcba9a51c0214328">
+        <dex dex="C:\Users\Vic\AndroidStudioProjects\ChatProject\app\build\intermediates\pre-dexed\debug\classes-0ae7d4241e17f57bdcfc3c02f4a8cb0eb209aa15.jar" />
+    </item>
+    <item
+        jar="C:\Users\Vic\AndroidStudioProjects\ChatProject\app\libs\jackson-core-asl-1.9.7.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="2dd41e7570f5c73e63a6a1311671a60c817e1989">
+        <dex dex="C:\Users\Vic\AndroidStudioProjects\ChatProject\app\build\intermediates\pre-dexed\debug\jackson-core-asl-1.9.7-e26dba5580c9240268fa211af605ef852b1864dc.jar" />
+    </item>
+    <item
+        jar="C:\Users\Vic\Documents\GitHub\MyChat\app\build\intermediates\exploded-aar\com.android.support\support-v4\22.1.1\jars\libs\internal_impl-22.1.1.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="9e070ad32b2700b0343e8e0cccc437733d91ba3a">
+        <dex dex="C:\Users\Vic\Documents\GitHub\MyChat\app\build\intermediates\pre-dexed\debug\internal_impl-22.1.1-b7c980567e5e50c56092ecaa2f88fbe4a80e21a4.jar" />
+    </item>
+    <item
+        jar="C:\Users\Vic\AndroidStudioProjects\ChatProject\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\22.1.1\jars\classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="a3ff3c506644c820eb2bdf06e8339f72be578551">
+        <dex dex="C:\Users\Vic\AndroidStudioProjects\ChatProject\app\build\intermediates\pre-dexed\debug\classes-98424d087ba88056be953b659e0791a51c5e8db6.jar" />
+    </item>
+    <item
+        jar="C:\Users\Vic\Documents\GitHub\MyChat\app\libs\jackson-core-asl-1.9.7.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="2dd41e7570f5c73e63a6a1311671a60c817e1989">
+        <dex dex="C:\Users\Vic\Documents\GitHub\MyChat\app\build\intermediates\pre-dexed\debug\jackson-core-asl-1.9.7-bf36c91395402af0786b381bbee1c44664af960c.jar" />
+    </item>
+    <item
+        jar="C:\Users\Vic\AndroidStudioProjects\ChatProject\app\build\intermediates\exploded-aar\com.android.support\support-v4\22.1.1\jars\libs\internal_impl-22.1.1.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="9e070ad32b2700b0343e8e0cccc437733d91ba3a">
+        <dex dex="C:\Users\Vic\AndroidStudioProjects\ChatProject\app\build\intermediates\pre-dexed\debug\internal_impl-22.1.1-1dde77ae2285c86b6e3c994c2474e6997e1fdd13.jar" />
+    </item>
+    <item
+        jar="C:\Users\Vic\Documents\GitHub\MyChat\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\22.1.1\jars\classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="a3ff3c506644c820eb2bdf06e8339f72be578551">
+        <dex dex="C:\Users\Vic\Documents\GitHub\MyChat\app\build\intermediates\pre-dexed\debug\classes-555381cfaa6a538706179dc913e8ad4a1cda9980.jar" />
+    </item>
+    <item
+        jar="C:\Users\Vic\AppData\Local\Android\sdk1\extras\android\m2repository\com\android\support\support-annotations\22.1.1\support-annotations-22.1.1.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="01d051a6bfb1218b1db2d3a5af0480ac2c25c42a">
+        <dex dex="C:\Users\Vic\AndroidStudioProjects\ChatProject\app\build\intermediates\pre-dexed\debug\support-annotations-22.1.1-cc026c7a452fd95add98aa6d18239e7957d6584d.jar" />
+    </item>
+    <item
+        jar="C:\Users\Vic\Documents\GitHub\MyChat\app\libs\autobahn-0.5.0.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="5f62bc6117f905fd37955f6e2ebd3aad68701b60">
+        <dex dex="C:\Users\Vic\Documents\GitHub\MyChat\app\build\intermediates\pre-dexed\debug\autobahn-0.5.0-b5f4fb29d26c34568c29850af40d3f486d8845ac.jar" />
+    </item>
+
+</items>
