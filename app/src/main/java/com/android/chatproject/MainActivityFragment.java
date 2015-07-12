@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -29,10 +28,23 @@ import de.tavendo.autobahn.WebSocketHandler;
  */
 public class MainActivityFragment extends Fragment {
 
-    private String myResultStr;
-    private TextView textView;
+    //private String myResultStr;
+    //private TextView textView;
     private HttpURLConnection urlConnection = null;
     WebSocketConnection mConnection;
+    private List<String> data;
+
+    String[] arrayForList = {"Fake channel 1 : 51",
+            "Fake channel 2 : 51",
+            "Fake channel 3 : 57",
+            "Fake channel 4 : 52",
+            "Fake channel 5 : 53"
+
+    };
+    private ArrayAdapter<String> myListAdapter;
+
+    String channel_id,channel_name,clients_in_channel;
+    double users_in_channel;
 
     public MainActivityFragment() {
         setHasOptionsMenu(true);
@@ -53,17 +65,13 @@ public class MainActivityFragment extends Fragment {
         //textView.setText(myResultStr);
         //connect();
 
-        String[] arrayForList= {"Fake channel 1 : 51",
-                "Fake channel 2 : 51",
-                "Fake channel 3 : 57",
-                "Fake channel 4 : 52",
-                "Fake channel 5 : 53"
 
-        };
+        connect();
 
-        List<String> data = new ArrayList<String>(Arrays.asList(arrayForList));
 
-        ArrayAdapter<String> myListAdapter = new ArrayAdapter<String>(
+        data = new ArrayList<String>(Arrays.asList(arrayForList));
+
+         myListAdapter = new ArrayAdapter<String>(
                 getActivity(),
                 R.layout.list_item_layout,
                 R.id.list_item_textview_id,
@@ -72,6 +80,7 @@ public class MainActivityFragment extends Fragment {
 
         ListView listView =(ListView) rootView.findViewById(R.id.listview_for_channels_id);
         listView.setAdapter(myListAdapter);
+
 
         return rootView;
     }
@@ -111,7 +120,7 @@ public class MainActivityFragment extends Fragment {
 
                         //mConnection.disconnect();
 
-                        textView.setText(getChannels().toString());
+                        //textView.setText(getChannels().toString());
                     }catch (JSONException e){
                         Log.v("123", e.toString());
                     }
@@ -121,10 +130,15 @@ public class MainActivityFragment extends Fragment {
                 public void onTextMessage(String message) {
                     System.out.println("--received message: " + message);
                     try {
+
                         myParseJSON(message);
 
-                    }catch(JSONException e){
+                        myListAdapter.notifyDataSetChanged();
 
+
+
+                    }catch(JSONException e){
+                        Log.v("JS exepciot", e.toString());
                     }
                 }
 
@@ -168,14 +182,37 @@ public class MainActivityFragment extends Fragment {
 
         return newstringJSON;
     }
+
     private void myParseJSON(String s) throws JSONException{
         JSONObject MyJsonObject = new JSONObject(s);
 
-        String stringOfFate=MyJsonObject.getString("type");
+        String stringOfFate = MyJsonObject.getString("type");
 
-        if(stringOfFate=="channels_list"){
+        if(stringOfFate.equals("channels_list")){
+            Log.v("stringOfFate", stringOfFate);
             Log.v("Это список каналов", "каналы:");
-        }else {
+
+
+            JSONObject newJsObject = MyJsonObject.getJSONObject("data");
+            JSONArray newJsArray = newJsObject.getJSONArray("channels");
+            arrayForList = new String[newJsArray.length()];
+
+            myListAdapter.clear();
+
+            for(int i=0; i < newJsArray.length(); i++) {
+                JSONObject newJsObj2 = newJsArray.getJSONObject(i);
+
+                channel_id = newJsObj2.getString("channel_id");
+                channel_name =newJsObj2.getString("channel_name");
+                clients_in_channel=newJsObj2.getString("clients_in_channel");
+                users_in_channel = newJsObj2.getDouble("users_in_channel");
+
+                arrayForList[i]= "ID -" + channel_id  + "; "+ "Name -" + channel_name + "; "+"Clients -"+ "; "
+                        + clients_in_channel + "; "+"Users -" + users_in_channel;
+
+                myListAdapter.add(arrayForList[i]);
+            }
+
 
         }
     }
