@@ -82,6 +82,8 @@ public class MainActivityFragment extends Fragment {
         return rootView;
     }
 
+
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -123,7 +125,7 @@ public class MainActivityFragment extends Fragment {
                     try {
                         myParseJSON(message);
 
-                        myListAdapter.notifyDataSetChanged();
+                        //myListAdapter.notifyDataSetChanged();
 
                     }catch(JSONException e){
                         Log.v("JS exepciot", e.toString());

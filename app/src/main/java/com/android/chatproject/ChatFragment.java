@@ -6,10 +6,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import de.tavendo.autobahn.WebSocketConnection;
 import de.tavendo.autobahn.WebSocketHandler;
@@ -22,6 +27,11 @@ public class ChatFragment extends Fragment {
 
     WebSocketConnection mConnection2;
     String channel_id;
+    String[] messagesHistory={"1","2","3"};
+    ArrayList<String> data;
+
+    ArrayAdapter<String> myListAdapter2;
+    String user_name, user_message;
 
     public ChatFragment() {
     }
@@ -35,6 +45,17 @@ public class ChatFragment extends Fragment {
         channel_id =(String)getActivity().getIntent().getSerializableExtra("channel_id");
         connect();
 
+        data = new ArrayList<String>(Arrays.asList(messagesHistory));
+
+        myListAdapter2 = new ArrayAdapter<String>(
+                getActivity(),
+                R.layout.list_item_layout,
+                R.id.list_item_textview_id,
+                data);
+
+        ListView listView=(ListView)rootView.findViewById(R.id.listview_for_chat_id);
+        listView.setAdapter(myListAdapter2);
+
         return rootView;
 
     }
@@ -45,13 +66,12 @@ public class ChatFragment extends Fragment {
             mConnection2.connect("ws://chat.goodgame.ru:8081/chat/websocket", new WebSocketHandler() {
                 @Override
                 public void onOpen() {
-
                     System.out.println("--open");
-
-
+                    myListAdapter2.clear();
                     try {
-                        mConnection2.sendTextMessage(connetcToChannel().toString());
-                        Log.v("connetcToChannel", connetcToChannel().toString());
+                        mConnection2.sendTextMessage(connectToChannel().toString());
+                        Log.v("connetcToChannel", connectToChannel().toString());
+                        getMessagesHistory();
                     }catch (JSONException e){
                         Log.v("123", e.toString());
                     }
@@ -60,17 +80,13 @@ public class ChatFragment extends Fragment {
                 @Override
                 public void onTextMessage(String message) {
                     System.out.println("--received message: " + message);
-////                    try {
-//
-//                        myParseJSON(message);
-//
-//                        myListAdapter.notifyDataSetChanged();
-//
-//
-//
-//                    }catch(JSONException e){
-//                        Log.v("JS exepciot", e.toString());
-//                    }
+                    try {
+                        myParseJSON(message);
+                        myListAdapter2.notifyDataSetChanged();
+
+                    }catch(JSONException e){
+                        Log.v("JS excepcion", e.toString());
+                    }
 
                 }
                 @Override
@@ -84,7 +100,7 @@ public class ChatFragment extends Fragment {
             e.printStackTrace();
         }
     }
-    private JSONObject connetcToChannel() throws JSONException {
+    private JSONObject connectToChannel() throws JSONException {
 
         JSONObject newstringJSON = new JSONObject();
         JSONArray myArray1 = new JSONArray();
@@ -96,47 +112,79 @@ public class ChatFragment extends Fragment {
         newJSObj1.put("channel_id",channel_id);
         newJSObj1.put("hidden","false");
 
-
-        //myArray1.put("channel_id",channel_id);
-        //myArray1.put(newJSObj2);
-
         newstringJSON.put("type","join");
         newstringJSON.put("data",newJSObj1);
 
         return newstringJSON;
     }
-//    private void myParseJSON(String s) throws JSONException{
-//        JSONObject MyJsonObject = new JSONObject(s);
-//
-//        String stringOfFate = MyJsonObject.getString("type");
-//
-//        //если сервер прислал список каналов
-//        if(stringOfFate.equals("channels_list")){
-//            Log.v("stringOfFate", stringOfFate);
-//            Log.v("Это список каналов", "каналы:");
-//
-//
-//            JSONObject newJsObject = MyJsonObject.getJSONObject("data");
-//            JSONArray newJsArray = newJsObject.getJSONArray("channels");
-//            arrayForChannelId = new String[newJsArray.length()];
-//
-//            myListAdapter.clear();
-//
-//            for(int i=0; i < newJsArray.length(); i++) {
-//                JSONObject newJsObj2 = newJsArray.getJSONObject(i);
-//
-//                channel_id = newJsObj2.getString("channel_id");
-//                channel_name =newJsObj2.getString("channel_name");
-//                clients_in_channel=newJsObj2.getString("clients_in_channel");
-//                users_in_channel = newJsObj2.getDouble("users_in_channel");
-//
-//                arrayForChannelId[i]= channel_id;
-//
-//                myListAdapter.add("ID -" + channel_id  + "; "+ "Name -" + channel_name + "; "+"Clients -"+ "; "
-//                        + clients_in_channel + "; "+"Users -" + users_in_channel);
-//
-//            }
-//        }
-//
-//    }
+    private JSONObject getMessagesHistory() throws JSONException{
+        JSONObject newstringJSON = new JSONObject();
+        JSONArray myArray1 = new JSONArray();
+        JSONArray myArray2 = new JSONArray();
+
+        JSONObject newJSObj1 = new JSONObject();
+        JSONObject newJSObj2 = new JSONObject();
+
+        newJSObj1.put("channel_id",channel_id);
+        //newJSObj1.put("hidden","false");
+
+        newstringJSON.put("type","get_channel_history");
+        newstringJSON.put("data",newJSObj1);
+
+        return newstringJSON;
+    }
+    private void myParseJSON(String s) throws JSONException{
+        JSONObject MyJsonObject = new JSONObject(s);
+
+        String stringOfFate = MyJsonObject.getString("type");
+
+        //если сервер прислал список каналов
+        if(stringOfFate.equals("channel_history")){
+            Log.v("stringOfFate", stringOfFate);
+            Log.v("Это история сообщений", "сообщения:");
+
+            JSONObject newJsObject = MyJsonObject.getJSONObject("data");
+            JSONArray newJsArray = newJsObject.getJSONArray("messages");
+
+            //myListAdapter2.clear();
+
+            for(int i=0; i < newJsArray.length(); i++) {
+                JSONObject newJsObj2 = newJsArray.getJSONObject(i);
+
+                user_name= newJsObj2.getString("user_name");
+                user_message =newJsObj2.getString("text");
+                Log.v(user_name,user_message);
+
+
+                myListAdapter2.add(user_name + " : " + user_message);
+
+            }
+        }
+
+        if(stringOfFate.equals("motd")){
+
+        }
+        if(stringOfFate.equals("message")){
+
+            //Log.v("stringOfFate", stringOfFate + "новое сообщение");
+            //Log.v("Это новое сообщение", "сообщение:");
+
+            JSONObject newJsObject = MyJsonObject.getJSONObject("data");
+            //JSONArray newJsArray = newJsObject.getJSONArray("messages");
+
+            //myListAdapter2.clear();
+
+            //for(int i=0; i < newJsArray.length(); i++) {
+                //JSONObject newJsObj2 = newJsObject.getJSONObject(i);
+
+            user_name = newJsObject.getString("user_name");
+            user_message = newJsObject.getString("text");
+
+            Log.v(user_name,user_message);
+
+            myListAdapter2.add(user_name + " : " + user_message);
+            //}
+        }
+
+    }
 }
