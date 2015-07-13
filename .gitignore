@@ -73,6 +73,7 @@ local.properties
 proguard/
 
 .idea/
+.idea
 .DS_Store
 app/mapping.txt
 app/seeds.txt
