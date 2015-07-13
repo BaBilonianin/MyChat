@@ -1,5 +1,6 @@
 package com.android.chatproject;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -10,13 +11,11 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -30,20 +29,17 @@ import de.tavendo.autobahn.WebSocketHandler;
  */
 public class MainActivityFragment extends Fragment {
 
-    //private String myResultStr;
-    //private TextView textView;
-    private HttpURLConnection urlConnection = null;
-    WebSocketConnection mConnection;
+    private WebSocketConnection mConnection;
     private List<String> data;
 
-    String[] arrayForList = {"Fake channel 1 : 51",
+    String[] arrayForChannelId = {"Fake channel 1 : 51",
             "Fake channel 2 : 51",
             "Fake channel 3 : 57",
             "Fake channel 4 : 52",
             "Fake channel 5 : 53"
-
     };
-    private ArrayAdapter<String> myListAdapter;
+
+    ArrayAdapter<String> myListAdapter;
 
     String channel_id,channel_name,clients_in_channel;
     double users_in_channel;
@@ -56,24 +52,11 @@ public class MainActivityFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        //MyNetworkClass myNetworkClass = new MyNetworkClass();
-        //myNetworkClass.execute();
-
-
-
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-        //textView = (TextView)rootView.findViewById(R.id.test_textview);
-
-        //textView.setText(myResultStr);
-        //connect();
-
-
         connect();
+        data = new ArrayList<String>(Arrays.asList(arrayForChannelId));
 
-
-        data = new ArrayList<String>(Arrays.asList(arrayForList));
-
-         myListAdapter = new ArrayAdapter<String>(
+        myListAdapter = new ArrayAdapter<String>(
                 getActivity(),
                 R.layout.list_item_layout,
                 R.id.list_item_textview_id,
@@ -87,7 +70,12 @@ public class MainActivityFragment extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getActivity(), myListAdapter.getItem(position), Toast.LENGTH_LONG).show();
+
+                Intent intent = new Intent(getActivity(), ChatActivity.class);
+                intent.putExtra("channel_id",arrayForChannelId[position]);
+                startActivity(intent);
+
+                //mConnection.disconnect();
             }
         });
 
@@ -120,16 +108,10 @@ public class MainActivityFragment extends Fragment {
             mConnection.connect("ws://chat.goodgame.ru:8081/chat/websocket", new WebSocketHandler() {
                 @Override
                 public void onOpen() {
-
                     System.out.println("--open");
-
-
                     try {
-                        mConnection.sendTextMessage(getChannels().toString());// ("123");//getChannels().toString());
+                        mConnection.sendTextMessage(getChannels().toString());
 
-                        //mConnection.disconnect();
-
-                        //textView.setText(getChannels().toString());
                     }catch (JSONException e){
                         Log.v("123", e.toString());
                     }
@@ -139,21 +121,16 @@ public class MainActivityFragment extends Fragment {
                 public void onTextMessage(String message) {
                     System.out.println("--received message: " + message);
                     try {
-
                         myParseJSON(message);
 
                         myListAdapter.notifyDataSetChanged();
-
-
 
                     }catch(JSONException e){
                         Log.v("JS exepciot", e.toString());
                     }
                 }
-
                 @Override
                 public void onClose(int code, String reason) {
-
                     System.out.println("--close");
                     mConnection.disconnect();
                 }
@@ -197,6 +174,7 @@ public class MainActivityFragment extends Fragment {
 
         String stringOfFate = MyJsonObject.getString("type");
 
+        //если сервер прислал список каналов
         if(stringOfFate.equals("channels_list")){
             Log.v("stringOfFate", stringOfFate);
             Log.v("Это список каналов", "каналы:");
@@ -204,7 +182,7 @@ public class MainActivityFragment extends Fragment {
 
             JSONObject newJsObject = MyJsonObject.getJSONObject("data");
             JSONArray newJsArray = newJsObject.getJSONArray("channels");
-            arrayForList = new String[newJsArray.length()];
+            arrayForChannelId = new String[newJsArray.length()];
 
             myListAdapter.clear();
 
@@ -216,23 +194,13 @@ public class MainActivityFragment extends Fragment {
                 clients_in_channel=newJsObj2.getString("clients_in_channel");
                 users_in_channel = newJsObj2.getDouble("users_in_channel");
 
-                arrayForList[i]= "ID -" + channel_id  + "; "+ "Name -" + channel_name + "; "+"Clients -"+ "; "
-                        + clients_in_channel + "; "+"Users -" + users_in_channel;
+                arrayForChannelId[i]= channel_id;
 
-                myListAdapter.add(arrayForList[i]);
+                myListAdapter.add("ID -" + channel_id  + "; "+ "Name -" + channel_name + "; "+"Clients -"+ "; "
+                        + clients_in_channel + "; "+"Users -" + users_in_channel);
+
             }
-
-
         }
-    }
 
-    /*//req_to_server
-{
-    type: "get_channels_list",
-    data: {
-        start: 0, // стартовая позиция (отсчет с 0)
-        count: 50 // количество каналов на страницу (max - 50)
     }
-}
-    * */
 }
