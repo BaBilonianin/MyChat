@@ -60,7 +60,7 @@ public class ChatFragment extends Fragment {
                 @Override
                 public void onTextMessage(String message) {
                     System.out.println("--received message: " + message);
-//                    try {
+////                    try {
 //
 //                        myParseJSON(message);
 //
