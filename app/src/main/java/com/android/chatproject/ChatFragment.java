@@ -188,7 +188,7 @@ public class ChatFragment extends Fragment {
                 //myListAdapter2.re
             }
 
-            //}
+            //32134142}
         }
 
     }
