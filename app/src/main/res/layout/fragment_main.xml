@@ -10,4 +10,5 @@
         android:layout_height="match_parent"
         android:id="@+id/listview_for_channels_id"/>
 
+
 </RelativeLayout>

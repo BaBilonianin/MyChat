@@ -34,6 +34,9 @@ public class ChatFragment extends Fragment {
     String user_name, user_message;
     ListView listView;
 
+    ArrayAdapter<View> viewArrayAdapter;
+    ListView listView2;
+
     public ChatFragment() {
     }
 
@@ -54,8 +57,12 @@ public class ChatFragment extends Fragment {
                 R.id.list_item_textview_id,
                 data);
 
+        //viewArrayAdapter= new ArrayAdapter<View>(getActivity(),R.layout.list_item_for_chat);
+
         listView=(ListView)rootView.findViewById(R.id.listview_for_chat_id);
         listView.setAdapter(myListAdapter2);
+
+
 
         return rootView;
 
@@ -155,11 +162,10 @@ public class ChatFragment extends Fragment {
 
                 user_name= newJsObj2.getString("user_name");
                 user_message =newJsObj2.getString("text");
-                Log.v(user_name, user_message);
-
+                //Log.v(user_name, user_message);
 
                 myListAdapter2.add(user_name + " : " + user_message);
-                //myListAdapter2.
+
 
             }
         }else if(stringOfFate.equals("motd")){
@@ -182,12 +188,26 @@ public class ChatFragment extends Fragment {
 
             Log.v(user_name, user_message);
 
-            myListAdapter2.add(user_name + " : " + user_message);
+            //myListAdapter2.add(user_name + " : " + user_message);
+
+            if (user_name.equals("babilonianin")) {
+                Log.v("babilonianin","babilonianin");
+                myListAdapter2.setDropDownViewResource(R.layout.list_item_for_chat);
+                myListAdapter2.add(user_name + " : " + user_message);
+                myListAdapter2.setDropDownViewResource(R.layout.list_item_layout);
+            }else{
+                myListAdapter2.add(user_name + " : " + user_message);
+            }
+
+
             listView.smoothScrollToPosition(listView.getCount());
             if (listView.getCount() >5) {
                 //myListAdapter2.re
             }
 
+            //TextView textView1=
+
+            //viewArrayAdapter.add();
             //32134142}
         }
 
