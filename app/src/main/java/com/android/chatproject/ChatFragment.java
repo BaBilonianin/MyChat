@@ -32,6 +32,7 @@ public class ChatFragment extends Fragment {
 
     ArrayAdapter<String> myListAdapter2;
     String user_name, user_message;
+    ListView listView;
 
     public ChatFragment() {
     }
@@ -53,7 +54,7 @@ public class ChatFragment extends Fragment {
                 R.id.list_item_textview_id,
                 data);
 
-        ListView listView=(ListView)rootView.findViewById(R.id.listview_for_chat_id);
+        listView=(ListView)rootView.findViewById(R.id.listview_for_chat_id);
         listView.setAdapter(myListAdapter2);
 
         return rootView;
@@ -71,7 +72,8 @@ public class ChatFragment extends Fragment {
                     try {
                         mConnection2.sendTextMessage(connectToChannel().toString());
                         Log.v("connetcToChannel", connectToChannel().toString());
-                        getMessagesHistory();
+                        mConnection2.sendTextMessage(getMessagesHistory().toString());
+                        Log.v("gethistorystring", getMessagesHistory().toString());
                     }catch (JSONException e){
                         Log.v("123", e.toString());
                     }
@@ -82,7 +84,7 @@ public class ChatFragment extends Fragment {
                     System.out.println("--received message: " + message);
                     try {
                         myParseJSON(message);
-                        myListAdapter2.notifyDataSetChanged();
+                        //myListAdapter2.notifyDataSetChanged();
 
                     }catch(JSONException e){
                         Log.v("JS excepcion", e.toString());
@@ -129,8 +131,8 @@ public class ChatFragment extends Fragment {
         //newJSObj1.put("hidden","false");
 
         newstringJSON.put("type","get_channel_history");
-        newstringJSON.put("data",newJSObj1);
-
+        newstringJSON.put("data", newJSObj1);
+        Log.v("get_channels",newstringJSON.toString());
         return newstringJSON;
     }
     private void myParseJSON(String s) throws JSONException{
@@ -153,18 +155,16 @@ public class ChatFragment extends Fragment {
 
                 user_name= newJsObj2.getString("user_name");
                 user_message =newJsObj2.getString("text");
-                Log.v(user_name,user_message);
+                Log.v(user_name, user_message);
 
 
                 myListAdapter2.add(user_name + " : " + user_message);
+                //myListAdapter2.
 
             }
-        }
+        }else if(stringOfFate.equals("motd")){
 
-        if(stringOfFate.equals("motd")){
-
-        }
-        if(stringOfFate.equals("message")){
+        }else if(stringOfFate.equals("message")){
 
             //Log.v("stringOfFate", stringOfFate + "новое сообщение");
             //Log.v("Это новое сообщение", "сообщение:");
@@ -180,9 +180,14 @@ public class ChatFragment extends Fragment {
             user_name = newJsObject.getString("user_name");
             user_message = newJsObject.getString("text");
 
-            Log.v(user_name,user_message);
+            Log.v(user_name, user_message);
 
             myListAdapter2.add(user_name + " : " + user_message);
+            listView.smoothScrollToPosition(listView.getCount());
+            if (listView.getCount() >5) {
+                //myListAdapter2.re
+            }
+
             //}
         }
 
